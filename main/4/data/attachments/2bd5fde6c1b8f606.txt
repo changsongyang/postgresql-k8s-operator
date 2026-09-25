@@ -1,0 +1,43 @@
+[32mINFO    [0m pytest_operator.plugin:plugin.py:951 Model status:
+
+Model    Controller          Cloud/Region        Version  SLA          Timestamp
+testing  concierge-microk8s  microk8s/localhost  3.6.28   unsupported  03:51:12Z
+
+App                  Version  Status   Scale  Charm                Channel      Rev  Address         Exposed  Message
+postgresql-k8s       14.24    active       3  postgresql-k8s                      0  10.152.183.234  no       
+postgresql-test-app           blocked      1  postgresql-test-app  latest/edge  599  10.152.183.40   no       No database integration available
+
+Unit                    Workload  Agent  Address      Ports  Message
+postgresql-k8s/0        active    idle   10.1.13.140         
+postgresql-k8s/1        active    idle   10.1.13.141         
+postgresql-k8s/2*       active    idle   10.1.13.139         Primary
+postgresql-test-app/0*  blocked   idle   10.1.13.142         No database integration available
+
+[32mINFO    [0m pytest_operator.plugin:plugin.py:957 Juju error logs:
+
+unit-postgresql-test-app-0: 03:34:50 ERROR juju.worker.proxyupdater error writing apt proxy config file: open /etc/apt/apt.conf.d/95-juju-proxy-settings: permission denied
+unit-postgresql-k8s-2: 03:35:27 ERROR unit.postgresql-k8s/2.juju-log database:4: Failed to create database: connection to server at "postgresql-k8s-primary.testing.svc.cluster.local" (10.152.183.160), port 5432 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+
+unit-postgresql-k8s-2: 03:35:27 ERROR unit.postgresql-k8s/2.juju-log database:4: 
+Traceback (most recent call last):
+  File "/var/lib/juju/agents/unit-postgresql-k8s-2/charm/lib/charms/postgresql_k8s/v0/postgresql.py", line 255, in create_database
+    with self._connect_to_database(database=database) as conn, conn.cursor() as curs:
+  File "/var/lib/juju/agents/unit-postgresql-k8s-2/charm/lib/charms/postgresql_k8s/v0/postgresql.py", line 184, in _connect_to_database
+    connection = psycopg2.connect(
+  File "/var/lib/juju/agents/unit-postgresql-k8s-2/charm/venv/lib/python3.10/site-packages/psycopg2/__init__.py", line 122, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+psycopg2.OperationalError: connection to server at "postgresql-k8s-primary.testing.svc.cluster.local" (10.152.183.160), port 5432 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/var/lib/juju/agents/unit-postgresql-k8s-2/charm/src/relations/postgresql_provider.py", line 132, in _on_database_requested
+    self.charm.postgresql.create_database(
+  File "/var/lib/juju/agents/unit-postgresql-k8s-2/charm/lib/charms/postgresql_k8s/v0/postgresql.py", line 267, in create_database
+    raise PostgreSQLCreateDatabaseError() from e
+charms.postgresql_k8s.v0.postgresql.PostgreSQLCreateDatabaseError
+
+[32mINFO    [0m pytest_operator.plugin:plugin.py:1039 Forgetting model main...
