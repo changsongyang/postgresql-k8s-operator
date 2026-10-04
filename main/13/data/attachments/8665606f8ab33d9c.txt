@@ -1,0 +1,21 @@
+[32mINFO    [0m pytest_operator.plugin:plugin.py:951 Model status:
+
+Model    Controller          Cloud/Region        Version  SLA          Timestamp
+testing  concierge-microk8s  microk8s/localhost  3.6.29   unsupported  10:57:50Z
+
+App                  Version  Status   Scale  Charm                Channel      Rev  Address         Exposed  Message
+postgresql-k8s       14.24    active       3  postgresql-k8s       14/stable    960  10.152.183.145  no       
+postgresql-test-app           blocked      1  postgresql-test-app  latest/edge  604  10.152.183.32   no       No database integration available
+
+Unit                    Workload  Agent  Address      Ports  Message
+postgresql-k8s/0*       active    idle   10.1.159.76         Primary (degraded)
+postgresql-k8s/1        active    idle   10.1.159.78         
+postgresql-k8s/2        waiting   idle   10.1.159.77         awaiting for member to start
+postgresql-test-app/0*  blocked   idle   10.1.159.72         No database integration available
+
+[32mINFO    [0m pytest_operator.plugin:plugin.py:957 Juju error logs:
+
+unit-postgresql-test-app-0: 10:48:01 ERROR juju.worker.proxyupdater error writing apt proxy config file: open /etc/apt/apt.conf.d/95-juju-proxy-settings: permission denied
+unit-postgresql-k8s-0: 10:56:21 ERROR unit.postgresql-k8s/0.juju-log pgdata folder not found in /var/lib/postgresql/data/pgdata
+
+[32mINFO    [0m pytest_operator.plugin:plugin.py:1039 Forgetting model main...
